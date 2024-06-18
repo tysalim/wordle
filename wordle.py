@@ -35,22 +35,22 @@ def select_word():
 
 def check_input(true_word, input_word):
     feedback_arr = []
+    is_solved = False
     temp = true_word.split()
     for i in range(len(input_word)):
         if input_word[i] == true_word[i]:
-            feedback_arr.append("G")
+            feedback_arr.append("\U0001F7E2")
+            is_solved = True
             continue
         elif input_word[i] in temp:
-            feedback_arr.append("R")
+            feedback_arr.append("\U0001F534")
+            is_solved = False
         else:
-            feedback_arr.append("B")
-        if i < len(input_word) - 1:
-            temp.remove(temp[i])
+            feedback_arr.append("\U000026AB")
+            is_solved = False
     print("".join(feedback_arr))
-    if "R" not in feedback_arr and "B" not in feedback_arr:
-        return True
-    else:
-        return False
+    return is_solved
+    
 
         
 
