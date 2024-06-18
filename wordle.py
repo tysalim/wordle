@@ -35,21 +35,20 @@ def select_word():
 
 def check_input(true_word, input_word):
     feedback_arr = []
-    is_solved = False
     temp = true_word.split()
     for i in range(len(input_word)):
         if input_word[i] == true_word[i]:
-            feedback_arr.append("\U0001F7E2")
-            is_solved = True
+            feedback_arr.append("\U0001F7E2") # green-circle
             continue
         elif input_word[i] in temp:
-            feedback_arr.append("\U0001F534")
-            is_solved = False
-        else:
-            feedback_arr.append("\U000026AB")
-            is_solved = False
+            feedback_arr.append("\U0001F534") # red-circle
+        else:            
+            feedback_arr.append("\U000026AB") # black-circle
     print("".join(feedback_arr))
-    return is_solved
+    if "\U0001F534" not in feedback_arr or "\U000026AB" not in feedback_arr:
+        return True
+    else:
+        return False
     
 
         
@@ -62,9 +61,11 @@ def wordle(rounds):
         is_solved = check_input(word, input_word)
         if is_solved == True:
             print(f"You solved it! It took you just {round} rounds.")
-            break
+            exit(0)
         else:
             print("Try again!")
+    print(f"You didn't solve the word in time! The word was {word}! Better luck next time!")
+    
         
 
 
