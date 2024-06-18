@@ -44,8 +44,10 @@ def check_input(true_word, input_word):
             feedback_arr.append("\U0001F534") # red-circle
         else:            
             feedback_arr.append("\U000026AB") # black-circle
-    print("".join(feedback_arr))
-    if "\U0001F534" not in feedback_arr or "\U000026AB" not in feedback_arr:
+    FEEDBACK_STACK.append("".join(feedback_arr))
+    for lines in FEEDBACK_STACK:
+        print(lines)
+    if "\U0001F534" not in feedback_arr and "\U000026AB" not in feedback_arr:
         return True
     else:
         return False
