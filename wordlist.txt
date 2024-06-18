@@ -5,3 +5,5 @@ giant
 fried
 throw
 audio
+array
+enter
