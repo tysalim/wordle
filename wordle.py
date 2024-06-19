@@ -1,17 +1,21 @@
 import time
 import random
-
+import os
 
 # TODO: create globals
 
 MAX_ROUNDS = 6
 FEEDBACK_STACK = []
+RECORD = 0
 
 # takes user input, repeats through each round calling the checker function
 def main():
     while True:
         print("Welcome to the Wordle game!")
+        time.sleep(1)
         opt = input("Please enter one of the following commands to start: \n1. Wordle Classic\n2. Wordle (Less Guesses)\n3. Quit\n> ")
+        print("Your option has been noted. Loading...")
+        time.sleep(1)
         if opt == "1":
             wordle(6)
         elif opt == "2":
@@ -57,12 +61,17 @@ def check_input(true_word, input_word):
 
 def wordle(rounds):
     word = select_word()
+    os.system("clear")
     for round in range(1, rounds + 1):
         print(f"Round {round}")
         input_word = input("Your guess > ")
+        time.sleep(0.5)
         is_solved = check_input(word, input_word)
+        time.sleep(0.5)
         if is_solved == True:
             print(f"You solved it! It took you just {round} rounds.")
+            if RECORD == 0 or round < RECORD:
+                RECORD == round
             exit(0)
         else:
             print("Try again!")
