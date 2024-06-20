@@ -3,7 +3,7 @@ import random
 import os
 
 MAX_ROUNDS = 6
-PERSONAL_RECORD = 0
+RECORD = 0
 
 # takes user input, repeats through each round calling the checker function
 def main():
@@ -23,10 +23,9 @@ def main():
         else:
             print("Invalid input...")
             continue
-        continuation = input("Would you like to continue? Press ENTER for yes, and any other key to quit.")
-        if continuation == "\n":
-            continue
-        else:
+        continuation = input("Would you like to continue? Press ENTER for yes, and any other key to quit. ")
+        if continuation != "":
+            print("Thanks for playing! Play again soon!")
             exit(1)
 
 
@@ -64,8 +63,8 @@ def check_input(true_word, input_word, FEEDBACK_STACK):
 def wordle(rounds):
     word = select_word()
     os.system("clear")
-    record = PERSONAL_RECORD
     FEEDBACK_STACK = []
+    global RECORD
     for round in range(1, rounds + 1):
         print(f"Round {round}")
         input_word = input("Your guess > ")
@@ -74,9 +73,9 @@ def wordle(rounds):
         time.sleep(0.5)
         if is_solved == True:
             print(f"You solved it! It took you just {round} rounds.")
-            if record == 0 or round < record:
-                record = round
-            print(f"Personal Best: {record}")
+            if  RECORD == 0 or round < RECORD:
+                RECORD = round
+            print(f"Personal Best: {RECORD} Rounds")
             return
         else:
             print("Try again!")
