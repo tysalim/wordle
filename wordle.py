@@ -2,11 +2,8 @@ import time
 import random
 import os
 
-# TODO: create globals
-
 MAX_ROUNDS = 6
-FEEDBACK_STACK = []
-RECORD = 0
+PERSONAL_RECORD = 0
 
 # takes user input, repeats through each round calling the checker function
 def main():
@@ -26,6 +23,11 @@ def main():
         else:
             print("Invalid input...")
             continue
+        continuation = input("Would you like to continue? Press ENTER for yes, and any other key to quit.")
+        if continuation == "\n":
+            continue
+        else:
+            exit(1)
 
 
 
@@ -35,17 +37,17 @@ def select_word():
         random_word = random.choice(lines)
         return random_word
     
+# TODO: Fix issues with duplicate letters
 
-
-def check_input(true_word, input_word):
+def check_input(true_word, input_word, FEEDBACK_STACK):
     feedback_arr = []
-    temp = true_word.split()
+    temp = [x for x in true_word]
     for i in range(len(input_word)):
         if input_word[i] == true_word[i]:
             feedback_arr.append("\U0001F7E2") # green-circle
             continue
         elif input_word[i] in temp:
-            feedback_arr.append("\U0001F534") # red-circle
+            feedback_arr.append("\U0001F7E1") # yellow-circle
         else:            
             feedback_arr.append("\U000026AB") # black-circle
     FEEDBACK_STACK.append("".join(feedback_arr))
@@ -62,17 +64,20 @@ def check_input(true_word, input_word):
 def wordle(rounds):
     word = select_word()
     os.system("clear")
+    record = PERSONAL_RECORD
+    FEEDBACK_STACK = []
     for round in range(1, rounds + 1):
         print(f"Round {round}")
         input_word = input("Your guess > ")
         time.sleep(0.5)
-        is_solved = check_input(word, input_word)
+        is_solved = check_input(word, input_word, FEEDBACK_STACK)
         time.sleep(0.5)
         if is_solved == True:
             print(f"You solved it! It took you just {round} rounds.")
-            if RECORD == 0 or round < RECORD:
-                RECORD == round
-            exit(0)
+            if record == 0 or round < record:
+                record = round
+            print(f"Personal Best: {record}")
+            return
         else:
             print("Try again!")
     print(f"You didn't solve the word in time! The word was {word}! Better luck next time!")
