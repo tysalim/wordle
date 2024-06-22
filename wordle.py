@@ -10,7 +10,7 @@ def main():
     while True:
         print("Welcome to the Wordle game!")
         time.sleep(1)
-        opt = input("Please enter one of the following commands to start: \n1. Wordle Classic\n2. Wordle (Less Guesses)\n3. Quit\n> ")
+        opt = input("Please enter one of the following commands to start: \n1. Wordle Classic\n2. Wordle (Less Guesses)\n3. Quit\n> ").strip()
         print("Your option has been noted. Loading...")
         time.sleep(1)
         if opt == "1":
@@ -40,15 +40,20 @@ def select_word():
 
 def check_input(true_word, input_word, FEEDBACK_STACK):
     feedback_arr = []
-    temp = [x for x in true_word]
     for i in range(len(input_word)):
+        temp = [x for x in true_word]
         if input_word[i] == true_word[i]:
             feedback_arr.append("\U0001F7E2") # green-circle
+            temp.pop(i)
             continue
         elif input_word[i] in temp:
             feedback_arr.append("\U0001F7E1") # yellow-circle
         else:            
             feedback_arr.append("\U000026AB") # black-circle
+    for i in range(len(feedback_arr)):
+        if feedback_arr[i] == "\U0001F7E1":
+            if input_word[i] not in temp:
+                feedback_arr[i] = "\U000026AB"
     FEEDBACK_STACK.append("".join(feedback_arr))
     for lines in FEEDBACK_STACK:
         print(lines)
