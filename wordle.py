@@ -69,7 +69,7 @@ def wordle(true_word, rounds):
         else:
             print("Try again!")
             time.sleep(0.5)
-    print(f"The correct answer was {true_word}!")
+    print(f"You ran out of rounds! The correct answer was {true_word}! Try again next time!")
     
 
 def check_output(feedback_arr):
