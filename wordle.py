@@ -2,7 +2,6 @@ import time
 import random
 import os
 
-MAX_ROUNDS = 6
 RECORD = 0
 
 # takes user input, repeats through each round calling the checker function
