@@ -11,11 +11,13 @@ def main():
         time.sleep(1)
         opt = input("Please enter one of the following commands to start: \n1. Wordle Classic\n2. Wordle (Less Guesses)\n3. Quit\n> ").strip()
         print("Your option has been noted. Loading...")
+        word = select_word()
         time.sleep(1)
+        os.system("clear")
         if opt == "1":
-            wordle(6)
+            wordle(word, 6)
         elif opt == "2":
-            wordle(3)
+            wordle(word, 3)
         elif opt == "3":
             print("Thanks for playing! Play again soon!")
             break
@@ -34,59 +36,47 @@ def select_word():
         lines = word_file.read().splitlines()
         random_word = random.choice(lines)
         return random_word
-    
-# TODO: Fix issues with duplicate letters
 
-def check_input(true_word, input_word, FEEDBACK_STACK):
-    feedback_arr = []
-    for i in range(len(input_word)):
-        temp = [x for x in true_word]
-        if input_word[i] == true_word[i]:
-            feedback_arr.append("\U0001F7E2") # green-circle
-            temp.pop(i)
-            continue
-        elif input_word[i] in temp:
-            feedback_arr.append("\U0001F7E1") # yellow-circle
-        else:            
-            feedback_arr.append("\U000026AB") # black-circle
-    for i in range(len(feedback_arr)):
-        if feedback_arr[i] == "\U0001F7E1":
-            if input_word[i] not in temp:
-                feedback_arr[i] = "\U000026AB"
-    FEEDBACK_STACK.append("".join(feedback_arr))
-    for lines in FEEDBACK_STACK:
-        print(lines)
-    if "\U0001F534" not in feedback_arr and "\U000026AB" not in feedback_arr:
-        return True
-    else:
-        return False
-    
-
-        
-
-def wordle(rounds):
-    word = select_word()
-    os.system("clear")
+def wordle(true_word, rounds):
     FEEDBACK_STACK = []
-    global RECORD
-    for round in range(1, rounds + 1):
-        print(f"Round {round}")
-        input_word = input("Your guess > ")
-        time.sleep(0.5)
-        is_solved = check_input(word, input_word, FEEDBACK_STACK)
-        time.sleep(0.5)
-        if is_solved == True:
-            print(f"You solved it! It took you just {round} rounds.")
-            if  RECORD == 0 or round < RECORD:
-                RECORD = round
-            print(f"Personal Best: {RECORD} Rounds")
+    length = len(true_word)
+
+    for i in range(rounds):
+        feedback_arr = ["\U000026AB" for _ in range(length)]
+        temp = true_word
+        print(f"\nRound {i + 1}")
+        input_word = ""
+        while len(input_word) != length:
+            input_word = input("Your Guess > ").strip()
+        
+        for j in range(length):
+            if input_word[j] == temp[j]:
+                feedback_arr[j] = ("\U0001F7E2") # green-circle
+                temp = temp.replace(input_word[j], "-", 1)
+        
+        for k in range(length):
+            if input_word[k] in temp and feedback_arr[k] == "\U000026AB":
+                feedback_arr[k] = ("\U0001F7E1") # yellow-circle
+                temp = temp.replace(input_word[k], "-", 1)
+        
+        FEEDBACK_STACK.append("".join(feedback_arr))
+        for lines in FEEDBACK_STACK:
+            print(lines)
+        is_correct = check_output(feedback_arr)
+        if is_correct == True:
+            print(f"You got it after {i + 1} tries!\n")
             return
         else:
             print("Try again!")
-    print(f"You didn't solve the word in time! The word was {word}! Better luck next time!")
+            time.sleep(0.5)
+    print(f"The correct answer was {true_word}!")
     
-        
 
+def check_output(feedback_arr):
+    for i in range(len(feedback_arr)):
+        if feedback_arr[i] == "\U0001F7E1" or feedback_arr[i] == "\U000026AB":
+            return False
+    return True
 
 
 if __name__ == "__main__":
