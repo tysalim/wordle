@@ -37,40 +37,7 @@ def select_word():
         random_word = random.choice(lines)
         return random_word
 
-<<<<<<< HEAD
 def wordle(true_word, rounds):
-=======
-def check_input(true_word, input_word, FEEDBACK_STACK):
-    feedback_arr = []
-    for i in range(len(input_word)):
-        temp = [x for x in true_word]
-        if input_word[i] == true_word[i]:
-            feedback_arr.append("\U0001F7E2") # green-circle
-            temp.pop(i)
-            continue
-        elif input_word[i] in temp:
-            feedback_arr.append("\U0001F7E1") # yellow-circle
-        else:            
-            feedback_arr.append("\U000026AB") # black-circle
-    for i in range(len(feedback_arr)):
-        if feedback_arr[i] == "\U0001F7E1":
-            if input_word[i] not in temp:
-                feedback_arr[i] = "\U000026AB"
-    FEEDBACK_STACK.append("".join(feedback_arr))
-    for lines in FEEDBACK_STACK:
-        print(lines)
-    if "\U0001F534" not in feedback_arr and "\U000026AB" not in feedback_arr:
-        return True
-    else:
-        return False
-    
-
-        
-
-def wordle(rounds):
-    word = select_word()
-    os.system("clear")
->>>>>>> 5571940d44ec9e516387499f4d7f8a3edeb355c7
     FEEDBACK_STACK = []
     length = len(true_word)
 
